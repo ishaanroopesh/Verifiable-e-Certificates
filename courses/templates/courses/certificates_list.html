@@ -1,0 +1,40 @@
+{% extends 'courses/course_base.html' %}
+<!-- This webpage displays the certificates that have been approved for the user -->
+
+{% block precourse %}
+<div class="col-md-4">
+    <div class="content">
+        {% if user.is_authenticated %}
+            <h2>@{{ user.username }}</h2>
+        {% endif %}
+        <h2>Certificates</h2>
+        <p>You can view all your Certificates here!</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block course_content %}
+<div class="col-md-8">
+    <div class="list-group">
+        
+        {% for certificate in certificates %}
+            <a href="{% url 'courses:certificate_detail' unique_code=certificate.unique_code %}" class="list-group-item list-group-item-action">
+                <!-- 
+                    link to the certifcate page
+                    the link will be to the particular certificate received by the student
+                    this is done using the || unique_code=certificate.unique_code ||
+                   -->
+                <h3 class="">{{ certificate.course.name }}</h3>
+                <div class="list-group-item-text container-fluid">
+                    {{ certificate.course.description_html|safe }}
+                    <div class="row">
+                        <div class="col-md-4">
+                            VIEW YOUR CERTIFICATE!!!
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

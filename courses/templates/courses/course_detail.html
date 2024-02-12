@@ -1,0 +1,74 @@
+{% extends 'courses/course_base.html' %}
+{% block precourse %}
+
+<p>
+    <a href="{% url 'courses:all'%}" class="btn btn-primary btn-lg mb-5">
+        <!-- returns to the course list page -->
+        <span class="fa-solid fa-backward p-1"></span>Back 
+    </a>
+</p>
+
+<h1>{{ course.name }}</h1>
+<h5>
+    <div class="jumbotron">
+        {{ course.description_html|safe }}
+    </div>
+</h5>
+
+<h2 class="p-4 pb-5">Member Count : {{ course.members.count }}</h2>
+
+<div class="content">
+    <div class="col-md-9 p-4">
+    <!-- 
+        This is the view for the instructor
+        it inlcudes a list of students that have applied
+        giving the option to approve the students
+     -->
+    {% if user.is_superuser %}
+        {% if course.members.all %}
+        <table class="table table-hover" align="center">
+            <thead>
+                <th>Students</th>
+                <th>Approval Status</th>
+            </thead>
+            <tbody class="table-group-divider"></tbody>
+            {% for student, join_request in students_with_requests %}
+                <tr {% if join_request.is_approved %}class="table-success"{% endif %}> <!-- the color of the row changes based on the approval status of the student -->
+                    <td>{{ student.user.username }}</td>
+                    <td>
+                        {% if not join_request.is_approved %}
+                            <form id="approvalForm_{{ student.user.username }}" method="post" action="{% url 'courses:change_approval_status' course.slug student.user.username %}">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-success" onclick="toggleApproval('{{ student.user.username }}')">Approve</button>
+                            </form>
+                            <script>
+                                function toggleApproval(username) {
+                                    const form = document.getElementById('approvalForm_' + username);
+                                    form.submit();
+                                }
+                            </script>
+                        {% else %}
+                            <p>Approved</p>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h2>No Students in this group yet!</h2>
+        {% endif %}
+    </div>
+    {% else %}
+        {% if user in course.members.all %}
+            <a href="{% url 'courses:leave' slug=course.slug %}" class="btn btn-warning btn-lg">
+                <span class="fa-solid fa-circle-xmark p-2"></span>Leave
+            </a>
+        {% else %}
+            <a href="{% url 'courses:join' slug=course.slug %}" class="btn btn-primary btn-lg">
+                <span class="fa-solid fa-yin-yang p-2"></span>Join
+            </a>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
+

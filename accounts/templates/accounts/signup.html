@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+
+<div class="container">
+    <h1 class="pb-4">Sign Up</h1>
+    <h3 class="pb-4">(Note! : If you are a Course Instructor, please contact the site admin)</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-success" value="Sign Up">
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'courses/course_base.html' %}
+
+<!-- User Related Details -->
+{% block precourse %}
+<div class="col-md-4">
+    <div class="content">
+        {% if user.is_authenticated %}
+            <h2>{{ user.username }}</h2>
+        {% endif %}
+        <h2>Certificate Details</h2>
+    </div>
+</div>
+{% endblock %}
+
+<!-- The Certificate -->
+{% block course_content %}
+  <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>{{ certificate.course.name }}</h1>
+            <p>{{ certificate.course.description }}</p>
+
+            <!-- Link to go back to the course detail page -->
+            <a href="{% url 'courses:single' slug=certificate.course.slug %}" class="btn btn-info btn-lg">
+                <span class="fa-solid fa-backward p-1"></span>Back to Course 
+            </a>
+        </div>
+        <div class="col-md-6">
+            <!-- Displaying the certificate image using an <img> tag -->
+            <img src="{{ certificate_image_url }}" style="max-width: 100%; height: auto;" alt="Certificate Image">
+        </div>
+    </div>
+    
+  </div>
+{% endblock %}

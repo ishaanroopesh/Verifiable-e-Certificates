@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+<!-- base html for the course webpages -->
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% block precourse %}{% endblock %}
+        {% block course_content %}{% endblock %}
+        {% block postcourse %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

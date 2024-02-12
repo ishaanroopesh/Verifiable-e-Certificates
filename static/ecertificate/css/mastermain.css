@@ -1,0 +1,33 @@
+
+  
+  html,
+  body {
+
+    background: black;
+    margin: 0;
+  }
+  
+  
+  #note {
+    position: absolute;
+    color: rgba(249,241,204,1);
+    
+    bottom: 20px;
+    text-align: center;
+    user-select: none;
+
+  }
+  
+
+  .navbar{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .navbar-brand{
+    font-size: 1.5em;
+    font-family: Russo one;
+  }
+
+  .user_name{
+    color: #66ccff;
+  }
